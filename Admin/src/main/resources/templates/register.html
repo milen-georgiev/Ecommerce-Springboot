@@ -34,8 +34,17 @@
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                         </div>
-                        <div th:if = "${session.message}">
-                            <p class="alert alert-danger" th:text="${session.message}"></p>
+                        <div th:if = "${emailError}">
+                            <p class="alert alert-danger" th:text="${emailError}"></p>
+                        </div>
+                        <div th:if = "${passwordError}">
+                            <p class="alert alert-danger" th:text="${passwordError}"></p>
+                        </div>
+                        <div th:if = "${erorrs}">
+                            <p class="alert alert-danger" th:text="${erorrs}"></p>
+                        </div>
+                        <div th:if = "${success}">
+                            <p class="alert alert-success" th:text="${success}"></p>
                         </div>
                         <form th:action="@{/register-new}" th:object="${adminDto}" method="POST">
                             <div class="form-group row">
@@ -52,7 +61,7 @@
                                            id="exampleLastName"
                                            placeholder="Last Name">
                                     <div class="alert alert-danger" th:if="${#fields.hasErrors('lastName')}"
-                                         th:errors = "*{lastName}"></div>
+                                th:errors = "*{lastName}"></div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -65,7 +74,7 @@
                                     <input type="password" class="form-control form-control-user" th:field="*{password}"
                                            id="exampleInputPassword" placeholder="Password">
                                     <div class="alert alert-danger" th:if="${#fields.hasErrors('password')}"
-                                         th:errors = "*{password}"></div>
+                                    th:errors = "*{password}"></div>
                                 </div>
                                 <div class="col-sm-6">
                                     <input type="password" class="form-control form-control-user" th:field="*{repeatPassword}"
