@@ -7,4 +7,6 @@ public interface AdminService {
     Admin findByUsername(String username);
 
     Admin save(AdminDto adminDto);
+
+    void initRoles();
 }
