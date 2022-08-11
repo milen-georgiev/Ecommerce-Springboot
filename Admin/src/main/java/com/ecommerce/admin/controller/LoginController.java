@@ -27,23 +27,27 @@ public class LoginController {
 
 
     @GetMapping("/login")
-    public String loginForm() {
+    public String loginForm(Model model) {
+        model.addAttribute("title","Login");
         return "login";
     }
 
     @RequestMapping("/index")
-    public String home() {
+    public String home(Model model) {
+        model.addAttribute("title","Home page");
         return "index";
     }
 
     @GetMapping("/register")
     public String register(Model model) {
+        model.addAttribute("title","Register");
         model.addAttribute("adminDto", new AdminDto());
         return "register";
     }
 
     @GetMapping("/forgot-password")
     public String forgotPassword(Model model) {
+        model.addAttribute("title","Forgot Password");
         return "forgot-password";
     }
 
