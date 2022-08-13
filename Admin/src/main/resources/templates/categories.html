@@ -28,7 +28,7 @@
             <div th:if="${size == 0}">
                 <p>No category</p>
             </div>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add new category</button>
+            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add new category</button>
             <div th:if="${success}" class="text-center alert alert-success">
                 <p th:text="${success}"></p>
             </div>
@@ -52,7 +52,10 @@
                     <td>
                         <a id="editButton" th:href="@{/findById/(id = ${category.id})}" class="btn btn-primary">Update</a>
                     </td>
-                    <td></td>
+                    <td>
+                        <a th:if="${category.is_activated} == true" th:href="@{/delete-category/(id = ${category.id})}" class="btn btn-warning">Delete</a>
+                        <a th:if="${category.is_activated} == false" th:href="@{/enable-category/(id = ${category.id})}" class="btn btn-primary">Enabled</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -102,7 +105,7 @@
 <!--End Modal -->
 <!-- Change Name category modal-->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalExample" aria-hidden="true">
-    <form >
+    <form th:action="@{/update-category}" method="PUT">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -111,12 +114,12 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="idEdit" class="col-form-label">Id:</label>
-                        <input type="text" class="form-control" id="idEdit" name="idEdit">
+                        <input type="text" class="form-control" id="idEdit" name="id" readonly>
                     </div>
 
                     <div class="form-group">
                         <label for="nameEdit" class="col-form-label">Name:</label>
-                        <input type="text" class="form-control" id="nameEdit" name="nameEdit">
+                        <input type="text" class="form-control" id="nameEdit" name="name">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -130,6 +133,7 @@
 <!--End change name category modal -->
 
 <div th:replace="fragments::script"></div>
+<script th:src="@{js/categories.js}"></script>
 
 </body>
 

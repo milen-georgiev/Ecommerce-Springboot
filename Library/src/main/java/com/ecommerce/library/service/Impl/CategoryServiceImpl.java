@@ -32,10 +32,15 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category update(Category category) {
-        Category categoryUpdate = new Category();
-        categoryUpdate.setName(category.getName());
-        categoryUpdate.set_activated(categoryUpdate.is_activated());
-        categoryUpdate.set_deleted(categoryUpdate.is_deleted());
+        Category categoryUpdate = null;
+        try {
+            categoryUpdate = categoryRepository.findById(category.getId()).get();
+            categoryUpdate.setName(category.getName());
+            categoryUpdate.set_activated(categoryUpdate.is_activated());
+            categoryUpdate.set_deleted(categoryUpdate.is_deleted());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return categoryRepository.save(categoryUpdate);
     }
 
