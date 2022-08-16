@@ -44,14 +44,31 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductDto getById(Long id) {
+        Product product = productRepository.getById(id);
+        ProductDto productDto = new ProductDto();
+        productDto.setId(product.getId());
+        productDto.setName(product.getName());
+        productDto.setDescription(product.getDescription());
+        productDto.setCurrentQuantity(product.getCurrentQuantity());
+        productDto.setCategory(product.getCategory());
+        productDto.setSalePrice(product.getSalePrice());
+        productDto.setCostPrice(product.getCostPrice());
+        productDto.setImage(product.getImage());
+        productDto.setActivated(product.is_activated());
+        productDto.setDeleted(product.is_deleted());
+        return productDto;
+    }
+
+    @Override
     public Product save(MultipartFile imageProduct, ProductDto productDto) {
         try {
             Product product = new Product();
             if (imageProduct == null) {
                 product.setImage(null);
-            }else {
-                if (imageUpload.uploadImage(imageProduct)){
-                    System.out.println("Upload successfully");
+            } else {
+                if (imageUpload.checkExisted(imageProduct) == false) {
+                    imageUpload.uploadImage(imageProduct);
                 }
                 product.setImage(Base64.getEncoder().encodeToString(imageProduct.getBytes()));
             }
@@ -71,18 +88,44 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product update(ProductDto productDto) {
-        return null;
+    public Product update(MultipartFile imageProduct, ProductDto productDto) {
+        try {
+            Product product = productRepository.getById(productDto.getId());
+            if (imageProduct == null) {
+                product.setImage(null);
+            } else {
+                if (imageUpload.checkExisted(imageProduct) == false) {
+                    imageUpload.uploadImage(imageProduct);
+                }
+                product.setImage(Base64.getEncoder().encodeToString(imageProduct.getBytes()));
+            }
+            product.setName(productDto.getName());
+            product.setDescription(productDto.getDescription());
+            product.setCategory(productDto.getCategory());
+            product.setCostPrice(productDto.getCostPrice());
+            product.setSalePrice(productDto.getSalePrice());
+            product.setCurrentQuantity(productDto.getCurrentQuantity());
+            return productRepository.save(product);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public void deleteById(Long id) {
-
+        Product product = productRepository.getById(id);
+        product.set_deleted(true);
+        product.set_activated(false);
+        productRepository.save(product);
     }
 
     @Override
     public void enableById(Long id) {
-
+        Product product = productRepository.getById(id);
+        product.set_deleted(false);
+        product.set_activated(true);
+        productRepository.save(product);
     }
 
 

@@ -56,9 +56,9 @@
                         </td>
                         <td>
                             <a th:if="${category.activated} == true"
-                               th:href="@{/delete-category/(id = ${category.id})}" class="btn btn-warning">Delete</a>
+                               th:href="@{/delete-category/{id} (id = ${category.id})}" class="btn btn-danger">Delete</a>
                             <a th:if="${category.activated} == false"
-                               th:href="@{/enable-category/(id = ${category.id})}" class="btn btn-primary">Enabled</a>
+                               th:href="@{/enable-category/{id} (id = ${category.id})}" class="btn btn-primary">Enabled</a>
                         </td>
                     </tr>
                     </tbody>

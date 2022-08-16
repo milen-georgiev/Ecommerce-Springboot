@@ -2,16 +2,14 @@ package com.ecommerce.admin.controller;
 
 import com.ecommerce.library.dto.ProductDto;
 import com.ecommerce.library.model.Category;
+import com.ecommerce.library.model.Product;
 import com.ecommerce.library.service.CategoryService;
 import com.ecommerce.library.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -49,7 +47,7 @@ public class ProductController {
         return "add-product";
     }
 
-    @PostMapping("/save_product")
+    @PostMapping("/save-product")
     public String saveProduct(@ModelAttribute("product") ProductDto productDto,
                               @RequestParam("imageProduct") MultipartFile imageProduct,
                               RedirectAttributes redirectAttributes) {
@@ -62,6 +60,59 @@ public class ProductController {
         }
 
 
+        return "redirect:/products";
+    }
+
+    @GetMapping("/update-product/{id}")
+    public String updateProductForm(@PathVariable("id") Long id, Model model,Principal principal) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("title","Update products");
+        List<Category> categories = categoryService.findAllByActivated();
+        ProductDto productDto = productService.getById(id);
+        model.addAttribute("categories", categories);
+        model.addAttribute("product", productDto);
+        return "update-product";
+    }
+
+    @PostMapping("/update-product/{id}")
+    public String processUpdate(@PathVariable("id") Long id,
+                                @ModelAttribute("productDto") ProductDto productDto,
+                                @RequestParam("imageProduct")MultipartFile imageProduct,
+                                RedirectAttributes redirectAttributes){
+        try {
+            productService.update(imageProduct, productDto);
+            redirectAttributes.addFlashAttribute("success", "Update successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("failed", "Failed to update");
+        }
+        return "redirect:/products";
+    }
+
+    @RequestMapping(value = "/enable-product/{id}", method = {RequestMethod.PUT,RequestMethod.GET})
+    public String enableProduct(@PathVariable("id")Long id, RedirectAttributes redirectAttributes) {
+        try {
+            productService.enableById(id);
+            redirectAttributes.addFlashAttribute("success", "Enabled successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("failed", "Failed to enabled");
+        }
+
+        return "redirect:/products";
+    }
+
+    @RequestMapping(value = "/delete-product/{id}", method = {RequestMethod.PUT, RequestMethod.GET})
+    public String deleteProduct(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        try {
+            productService.deleteById(id);
+            redirectAttributes.addFlashAttribute("success", "Deleted successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("failed", "Failed to deleted");
+        }
         return "redirect:/products";
     }
 }
