@@ -6,6 +6,7 @@ import com.ecommerce.library.model.Product;
 import com.ecommerce.library.service.CategoryService;
 import com.ecommerce.library.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +35,36 @@ public class ProductController {
         model.addAttribute("products", productDtoList);
         model.addAttribute("size", productDtoList.size());
         return "products";
+    }
+
+    @GetMapping("/products/{pageNo}")
+    public String productsPage(@PathVariable("pageNo") int pageNo, Model model, Principal principal) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        Page<Product> products = productService.pageProduct(pageNo);
+        model.addAttribute("title","Manage Product");
+        model.addAttribute("size", products.getSize());
+        model.addAttribute("totalPages", products.getTotalPages());
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("products", products);
+        return "products";
+    }
+
+    @GetMapping("/search-result/{pageNo}")
+    public String searchProduct(@PathVariable("pageNo")int pageNo,
+                                @RequestParam("keyword")String keyword,
+                                Model model, Principal principal) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        Page<Product> products = productService.searchProduct(pageNo, keyword);
+        model.addAttribute("title","Search Result");
+        model.addAttribute("products", products);
+        model.addAttribute("size", products.getSize());
+        model.addAttribute("totalPages", products.getTotalPages());
+        model.addAttribute("currentPage", pageNo);
+        return "result-product";
     }
 
     @GetMapping("/add-product")

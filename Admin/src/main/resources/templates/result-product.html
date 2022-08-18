@@ -25,13 +25,13 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <!-- Page Heading-->
+
                 <div>
                     <form th:action="@{/search-result/0}" method="GET">
                         <input type="text" id="search" name="keyword" placeholder="Search product">
                         <button type="submit" class="btn btn-primary">Search</button>
                     </form>
                 </div>
-                <a class="btn btn-primary mb-3" th:href="@{/add-product}">Add new product</a>
                 <div th:if="${size == 0}">
                     <p>No products in shop</p>
                 </div>
