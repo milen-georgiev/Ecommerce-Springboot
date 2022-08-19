@@ -65,9 +65,9 @@
                         <td><a th:href="@{/update-product/{id} (id = ${product.id})}" class="btn btn-primary">Update</a>
                         </td>
                         <td>
-                            <a th:if="${product.is_activated} == true"
+                            <a th:if="${product.activated} == true"
                                th:href="@{/delete-product/{id} (id = ${product.id})}" class="btn btn-danger">Delete</a>
-                            <a th:if="${product.is_activated} == false"
+                            <a th:if="${product.activated} == false"
                                th:href="@{/enable-product/{id} (id = ${product.id})}"
                                class="btn btn-primary">Enabled</a>
                         </td>

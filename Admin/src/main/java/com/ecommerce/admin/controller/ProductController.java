@@ -42,7 +42,7 @@ public class ProductController {
         if (principal == null) {
             return "redirect:/login";
         }
-        Page<Product> products = productService.pageProduct(pageNo);
+        Page<ProductDto> products = productService.pageProduct(pageNo);
         model.addAttribute("title","Manage Product");
         model.addAttribute("size", products.getSize());
         model.addAttribute("totalPages", products.getTotalPages());
@@ -58,7 +58,7 @@ public class ProductController {
         if (principal == null) {
             return "redirect:/login";
         }
-        Page<Product> products = productService.searchProduct(pageNo, keyword);
+        Page<ProductDto> products = productService.searchProduct(pageNo, keyword);
         model.addAttribute("title","Search Result");
         model.addAttribute("products", products);
         model.addAttribute("size", products.getSize());

@@ -22,7 +22,7 @@ public interface ProductService {
 
     void enableById(Long id);
 
-    Page<Product> pageProduct (int pageNo);
+    Page<ProductDto> pageProduct (int pageNo);
 
-    Page<Product> searchProduct(int pageNo, String keyword);
+    Page<ProductDto> searchProduct(int pageNo, String keyword);
 }
