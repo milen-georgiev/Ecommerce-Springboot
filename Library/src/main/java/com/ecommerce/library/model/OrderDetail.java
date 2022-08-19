@@ -20,6 +20,7 @@ public class OrderDetail {
     private int quantity;
     private double totalPrice;
     private double unitPrice;
+//    Todo
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", referencedColumnName = "order_id")
     private Order order;
