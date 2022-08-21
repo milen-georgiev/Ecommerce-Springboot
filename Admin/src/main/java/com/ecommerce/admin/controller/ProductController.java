@@ -91,7 +91,7 @@ public class ProductController {
         }
 
 
-        return "redirect:/products";
+        return "redirect:/products/0";
     }
 
     @GetMapping("/update-product/{id}")
@@ -119,7 +119,7 @@ public class ProductController {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("failed", "Failed to update");
         }
-        return "redirect:/products";
+        return "redirect:/products/0";
     }
 
     @RequestMapping(value = "/enable-product/{id}", method = {RequestMethod.PUT,RequestMethod.GET})
@@ -132,7 +132,7 @@ public class ProductController {
             redirectAttributes.addFlashAttribute("failed", "Failed to enabled");
         }
 
-        return "redirect:/products";
+        return "redirect:/products/0";
     }
 
     @RequestMapping(value = "/delete-product/{id}", method = {RequestMethod.PUT, RequestMethod.GET})
@@ -144,6 +144,6 @@ public class ProductController {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("failed", "Failed to deleted");
         }
-        return "redirect:/products";
+        return "redirect:/products/0";
     }
 }
