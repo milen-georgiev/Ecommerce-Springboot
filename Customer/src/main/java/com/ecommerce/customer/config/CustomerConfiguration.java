@@ -35,13 +35,11 @@ public class CustomerConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
         auth.authenticationProvider(provider());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
         http.authorizeRequests()
                 .antMatchers("/*")
                 .permitAll()
