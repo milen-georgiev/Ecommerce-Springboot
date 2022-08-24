@@ -26,6 +26,8 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ImageUpload imageUpload;
 
+    /* Admin */
+
     @Override
     public List<ProductDto> findAll() {
         List<Product> products = productRepository.findAll();
@@ -45,8 +47,8 @@ public class ProductServiceImpl implements ProductService {
         productDto.setSalePrice(product.getSalePrice());
         productDto.setCostPrice(product.getCostPrice());
         productDto.setImage(product.getImage());
-        productDto.setActivated(product.is_activated());
-        productDto.setDeleted(product.is_deleted());
+        productDto.setActivated(product.isActivated());
+        productDto.setDeleted(product.isDeleted());
         return productDto;
     }
 
@@ -67,8 +69,8 @@ public class ProductServiceImpl implements ProductService {
             product.setCategory(productDto.getCategory());
             product.setCostPrice(productDto.getCostPrice());
             product.setCurrentQuantity(productDto.getCurrentQuantity());
-            product.set_activated(true);
-            product.set_deleted(false);
+            product.setActivated(true);
+            product.setDeleted(false);
 
             return productRepository.save(product);
         } catch (Exception e) {
@@ -105,16 +107,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteById(Long id) {
         Product product = productRepository.getById(id);
-        product.set_deleted(true);
-        product.set_activated(false);
+        product.setDeleted(true);
+        product.setActivated(false);
         productRepository.save(product);
     }
 
     @Override
     public void enableById(Long id) {
         Product product = productRepository.getById(id);
-        product.set_deleted(false);
-        product.set_activated(true);
+        product.setDeleted(false);
+        product.setActivated(true);
         productRepository.save(product);
     }
 
@@ -159,11 +161,26 @@ public class ProductServiceImpl implements ProductService {
             productDto.setSalePrice(product.getSalePrice());
             productDto.setCostPrice(product.getCostPrice());
             productDto.setImage(product.getImage());
-            productDto.setActivated(product.is_activated());
-            productDto.setDeleted(product.is_deleted());
+            productDto.setActivated(product.isActivated());
+            productDto.setDeleted(product.isDeleted());
             productDtoList.add(productDto);
         }
         return productDtoList;
     }
 
+    /* Customer */
+
+    @Override
+    public List<ProductDto> getAllProducts() {
+        List<Product> products = productRepository.findAllByActivatedTrue();
+        List<ProductDto> productDtoList = transfer(products);
+        return productDtoList;
+    }
+
+    @Override
+    public List<ProductDto> listViewProducts() {
+        List<Product> products = productRepository.findTop4ByActivatedTrue();
+        List<ProductDto> productDtoList = transfer(products);
+        return productDtoList;
+    }
 }

@@ -11,7 +11,12 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    Page<Product> findAllBy (Pageable pageable);
+    /*Admin*/
 
     List<Product> findProductsByDescriptionContains(String keyword);
+
+    /*Customer*/
+    List<Product> findAllByActivatedTrue();
+
+    List<Product> findTop4ByActivatedTrue();
 }

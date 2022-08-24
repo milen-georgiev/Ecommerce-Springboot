@@ -32,6 +32,6 @@ public class HomeController {
         List<ProductDto> productDtos = productService.findAll();
         model.addAttribute("categories", categories);
         model.addAttribute("products", productDtos);
-        return "/index";
+        return "index";
     }
 }
