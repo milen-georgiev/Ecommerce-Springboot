@@ -1,7 +1,9 @@
 package com.ecommerce.library.service.Impl;
 
 import com.ecommerce.library.dto.ProductDto;
+import com.ecommerce.library.model.Category;
 import com.ecommerce.library.model.Product;
+import com.ecommerce.library.repository.CategoryRepository;
 import com.ecommerce.library.repository.ProductRepository;
 import com.ecommerce.library.service.ProductService;
 import com.ecommerce.library.utils.ImageUpload;
@@ -22,6 +24,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private ImageUpload imageUpload;
@@ -180,6 +185,19 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> listViewProducts() {
         List<Product> products = productRepository.findTop4ByActivatedTrue();
+        List<ProductDto> productDtoList = transfer(products);
+        return productDtoList;
+    }
+
+    @Override
+    public Product getProductById(Long id) {
+        return productRepository.getById(id);
+    }
+
+    @Override
+    public List<ProductDto> getRelatedProducts(Long categoryId) {
+        Category category = categoryRepository.getById(categoryId);
+        List<Product> products = productRepository.findAllProductsByCategory(category);
         List<ProductDto> productDtoList = transfer(products);
         return productDtoList;
     }

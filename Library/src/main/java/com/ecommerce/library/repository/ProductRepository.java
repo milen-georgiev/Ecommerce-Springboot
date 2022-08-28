@@ -1,5 +1,6 @@
 package com.ecommerce.library.repository;
 
+import com.ecommerce.library.model.Category;
 import com.ecommerce.library.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,4 +20,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByActivatedTrue();
 
     List<Product> findTop4ByActivatedTrue();
+
+    List<Product> findAllProductsByCategory(Category category);
 }
