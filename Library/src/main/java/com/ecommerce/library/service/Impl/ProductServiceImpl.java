@@ -210,5 +210,19 @@ public class ProductServiceImpl implements ProductService {
         return productDtoList;
     }
 
+    @Override
+    public List<ProductDto> filterHighPrice() {
+        List<Product> products = productRepository.findAllByActivatedTrueOrderByCostPriceDesc();
+        List<ProductDto> productDtoList = transfer(products);
+        return productDtoList;
+    }
+
+    @Override
+    public List<ProductDto> filterLowPrice() {
+        List<Product> products = productRepository.findAllByActivatedTrueOrderByCostPriceAsc();
+        List<ProductDto> productDtoList = transfer(products);
+        return productDtoList;
+    }
+
 
 }

@@ -24,4 +24,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllProductsByCategory(Category category);
 
     List<Product> findAllProductsByCategoryAndActivatedTrue(Category category);
+
+    List<Product> findAllByActivatedTrueOrderByCostPriceDesc();
+
+    List<Product> findAllByActivatedTrueOrderByCostPriceAsc();
+
+
 }
