@@ -30,4 +30,8 @@ public interface ProductService {
 
     List<ProductDto> getRelatedProducts(Long categoryId);
 
+    List<ProductDto> getProductInCategory(Long id);
+
+
+
 }

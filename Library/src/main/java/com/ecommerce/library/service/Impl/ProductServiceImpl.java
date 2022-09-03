@@ -201,4 +201,14 @@ public class ProductServiceImpl implements ProductService {
         List<ProductDto> productDtoList = transfer(products);
         return productDtoList;
     }
+
+    @Override
+    public List<ProductDto> getProductInCategory(Long id) {
+        Category category = categoryRepository.getById(id);
+        List<Product> products = productRepository.findAllProductsByCategoryAndActivatedTrue(category);
+        List<ProductDto> productDtoList = transfer(products);
+        return productDtoList;
+    }
+
+
 }

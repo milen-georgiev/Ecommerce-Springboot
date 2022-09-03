@@ -22,4 +22,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findTop4ByActivatedTrue();
 
     List<Product> findAllProductsByCategory(Category category);
+
+    List<Product> findAllProductsByCategoryAndActivatedTrue(Category category);
 }
